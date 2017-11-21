@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addToDo } from '../actions'
+import { addTodo } from '../actions'
 
-let AddForm = (dispatch) => {
+let AddForm = ({dispatch}) => {
     let input;
 
     return (
         <form onSubmit={e => {
             e.preventDefault();
-            dispatch(addToDo(input.value));
+            dispatch(addTodo(input.value));
         }}>
             <input ref={node => {
                 input = node;
