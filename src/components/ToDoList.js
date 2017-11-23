@@ -30,9 +30,20 @@ let ToDoList = ({todos, dispatch}) => {
     )
 };
 
-let mapStateToProps = (state) => {
+const getVisibleTodos = (todos, filter) => {
+    switch (filter) {
+        case "SHOW_TODO":
+            return todos.filter(todo => !todo.completed)
+        case "SHOW_COMPLETED":
+            return todos.filter(todo => todo.completed)
+        default:
+            return todos;
+    }
+};
+
+const mapStateToProps = (state) => {
     return {
-        todos: state.todos
+        todos: getVisibleTodos(state.todos, state.filter)
     }
 };
 

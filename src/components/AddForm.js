@@ -9,6 +9,7 @@ let AddForm = ({dispatch}) => {
         <form onSubmit={e => {
             e.preventDefault();
             dispatch(addTodo(input.value));
+            input.value = "";
         }}>
             <input ref={node => {
                 input = node;
