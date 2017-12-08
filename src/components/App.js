@@ -3,9 +3,9 @@ import ToDoList from './ToDoList'
 import AddForm from './AddForm'
 import Footer from './Footer'
 
-const App = () => (
+const App = ({ match: { params }}) => (
     <div>
-        <ToDoList />
+        <ToDoList filter={params.filter || 'SHOW_ALL'}/>
         <AddForm />
         <Footer />
     </div>
