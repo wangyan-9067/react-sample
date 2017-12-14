@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Picker from '../components/Picker';
+import { selectSubreddit } from '../actions';
 
 class AsyncApp extends Component {
+    onChange(value) {
+        const { dispatch } = this.props;
+
+        dispatch(selectSubreddit(value));
+    }
+
     render() {
         const { selectedSubreddit } = this.props;
 
@@ -11,6 +18,7 @@ class AsyncApp extends Component {
                 <Picker
                     value={selectedSubreddit}
                     options={['reactjs', 'frontend']}
+                    onChange={(value) => this.onChange(value)}
                 />
             </div>
         );
