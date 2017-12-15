@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {
+    selectSubreddit,
+    fetchPosts
+} from '../actions';
 import Picker from '../components/Picker';
-import { selectSubreddit } from '../actions';
+import Post from '../components/Post';
 
 class AsyncApp extends Component {
     onChange(value) {
@@ -10,8 +14,22 @@ class AsyncApp extends Component {
         dispatch(selectSubreddit(value));
     }
 
+    componentDidMount() {
+        const { dispatch, selectedSubreddit } = this.props;
+
+        dispatch(fetchPosts(selectedSubreddit));
+    }
+
+    componentDidUpdate(prevProps) {
+        const { dispatch, selectedSubreddit } = this.props;
+
+        if (selectedSubreddit !== prevProps.selectedSubreddit) {
+            dispatch(fetchPosts(selectedSubreddit));
+        }
+    }
+
     render() {
-        const { selectedSubreddit } = this.props;
+        const { selectedSubreddit, posts } = this.props;
 
         return (
             <div>
@@ -20,6 +38,11 @@ class AsyncApp extends Component {
                     options={['reactjs', 'frontend']}
                     onChange={(value) => this.onChange(value)}
                 />
+                {
+                    posts.map((post, index) => (
+                        <Post {...post} key={index} index={index} />
+                    ))
+                }
             </div>
         );
     };
@@ -27,7 +50,8 @@ class AsyncApp extends Component {
 
 function mapStateToProps(state) {
     return {
-        selectedSubreddit: state.selectedSubreddit
+        selectedSubreddit: state.selectedSubreddit,
+        posts: state.posts[state.selectedSubreddit] || []
     };
 }
 
